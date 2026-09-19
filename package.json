@@ -1,0 +1,26 @@
+{
+  "name": "com.evrenefeb.unity-toolkit",
+  "version": "1.2.3",
+  "displayName": "Evrenefeb Unity Toolkit",
+  "description": "This is an example package",
+  "unity": "6.6",
+  "unityRelease": "0b5",
+  "dependencies": {
+    "com.unity.nuget.newtonsoft-json": "3.2.2"
+  },
+  "samples": [
+    {
+      "displayName": "Sample A",
+      "description": "Sample A description",
+      "path": "Samples~/Sample A"
+    }
+  ],
+  "keywords": [
+    "toolkit",
+    "modular"
+  ],
+  "author": {
+    "name": "Evrenefeb",
+    "url": "https://github.com/Evrenefeb"
+  }
+}
