@@ -13,6 +13,11 @@
       "displayName": "Sample A",
       "description": "Sample A description",
       "path": "Samples~/Sample A"
+    },
+    {
+      "displayName": "Persistence",
+      "description": "Provides an easy to use Persistence Manager with appropiate encoders and encryptors",
+      "path": "Samples~/Persistence"
     }
   ],
   "keywords": [

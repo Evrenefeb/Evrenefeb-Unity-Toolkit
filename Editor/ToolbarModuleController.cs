@@ -8,10 +8,6 @@ using UnityEngine;
 
 namespace Evrenefeb.Toolkit.Editor {
     public static class ToolbarModuleController {
-        [MenuItem("Evrenefeb/TEST")]
-        public static void TEST() {
-            Debug.Log("TEST");
-        }
 
         private const string PackageName = "com.evrenefeb.unity-toolkit";
 
@@ -28,6 +24,7 @@ namespace Evrenefeb.Toolkit.Editor {
         private static readonly Dictionary<string, string[]> Dependencies = new()
         {
             { "Sample A", new string[0] },
+            { "Persistence", new string[0] },
         };
 
         // Dependencies'in tersi: bir sample kaldırılınca hangi sample'lar bozulur?

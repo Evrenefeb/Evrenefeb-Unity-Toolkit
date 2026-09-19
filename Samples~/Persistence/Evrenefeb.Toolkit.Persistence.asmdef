@@ -1,0 +1,14 @@
+{
+    "name": "Evrenefeb.Toolkit.Persistence",
+    "rootNamespace": "Evrenefeb.Toolkit.Persistence",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
