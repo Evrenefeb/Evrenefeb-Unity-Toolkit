@@ -27,6 +27,7 @@ namespace Evrenefeb.Toolkit.Editor {
         {
             { "Persistence", new string[0] },
             { "Audio Module", new string[0] },
+            { "Improved Timers Module", new string[0] },
         };
 
         // key: sample displayName, value: (harici paket adı, git URL) çiftleri.
@@ -39,6 +40,12 @@ namespace Evrenefeb.Toolkit.Editor {
                     ("com.ami.broaudio", "https://github.com/man572142/Bro_Audio.git?path=/Assets/BroAudio")
                 }
             },
+            {
+                "Improved Timers Module",
+                new[] {
+                    ("com.gitamend.improvedtimers", "https://github.com/adammyhre/Unity-Improved-Timers.git")
+                }
+            }
         };
 
         private static Dictionary<string, List<string>> _dependents;
@@ -69,6 +76,11 @@ namespace Evrenefeb.Toolkit.Editor {
         private static void ImportAudioModule() => Import("Audio Module");
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Audio Module", true)]
         private static bool ValidateImportAudioModule() => !IsImported("Audio Module");
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Improved Timers Module", false, 11)]
+        private static void ImportTimersModule() => Import("Improved Timers Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Improved Timers Module", true)]
+        private static bool ValidateImportTimersModule() => !IsImported("Improved Timers Module");
 
         #region Templetes
 
@@ -120,6 +132,11 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Remove/Audio Module", true)]
         private static bool ValidateRemoveAudioModule() => IsImported("Audio Module");
 
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Improved Timers Module", false, 61)]
+        private static void RemoveTimersModule() => RemoveWithDependents("Improved Timers Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Improved Timers Module", true)]
+        private static bool ValidateRemoveTimersModule() => IsImported("Improved Timers Module");
+
 
         // ------------------------------------------------------------
         // Status göstergesi
@@ -134,6 +151,11 @@ namespace Evrenefeb.Toolkit.Editor {
         private static void StatusAudioModule() { }
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Audio Module", true)]
         private static bool ValidateStatusAudioModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Audio Module", IsImported("Audio Module")); return false; }
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Improved Timers Module", false, 101)]
+        private static void StatusTimersModule() { }
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Improved Timers Module", true)]
+        private static bool ValidateStatusTimersModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Improved Timers Module", IsImported("Improved Timers Module")); return false; }
 
 
         // ------------------------------------------------------------
