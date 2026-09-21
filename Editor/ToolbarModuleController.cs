@@ -24,11 +24,9 @@ namespace Evrenefeb.Toolkit.Editor {
 
         private static readonly Dictionary<string, string[]> Dependencies = new()
         {
-            //{ "Sample A", new string[0] },
             { "Persistence", new string[0] },
         };
 
-        // Dependencies'in tersi: bir sample kaldırılınca hangi sample'lar bozulur?
         private static Dictionary<string, List<string>> _dependents;
         private static Dictionary<string, List<string>> Dependents {
             get {
@@ -98,75 +96,17 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence", true)]
         private static bool ValidateRemovePersistence() => IsImported("Persistence");
 
-        #region Templetes
-
-        //[MenuItem("MyToolkit/Remove/Sample B", false, 61)]
-        //private static void RemoveB() => RemoveWithDependents("Sample B");
-        //[MenuItem("MyToolkit/Remove/Sample B", true)]
-        //private static bool ValidateRemoveB() => IsImported("Sample B");
-
-        //[MenuItem("MyToolkit/Remove/Sample C", false, 62)]
-        //private static void RemoveC() => RemoveWithDependents("Sample C");
-        //[MenuItem("MyToolkit/Remove/Sample C", true)]
-        //private static bool ValidateRemoveC() => IsImported("Sample C");
-
-        //[MenuItem("MyToolkit/Remove/Sample D", false, 63)]
-        //private static void RemoveD() => RemoveWithDependents("Sample D");
-        //[MenuItem("MyToolkit/Remove/Sample D", true)]
-        //private static bool ValidateRemoveD() => IsImported("Sample D");
-
-        //[MenuItem("MyToolkit/Remove/Sample E", false, 64)]
-        //private static void RemoveE() => RemoveWithDependents("Sample E");
-        //[MenuItem("MyToolkit/Remove/Sample E", true)]
-        //private static bool ValidateRemoveE() => IsImported("Sample E");
-
-        //[MenuItem("MyToolkit/Remove/All Samples", false, 80)]
-        //private static void RemoveAll() {
-        //    if (!EditorUtility.DisplayDialog(
-        //            "Tüm Sample'ları Kaldır",
-        //            "Kurulu tüm sample'lar projeden kaldırılacak. Emin misiniz?",
-        //            "Evet, Kaldır", "İptal"))
-        //        return;
-
-        //    foreach (var name in Dependencies.Keys.ToList())
-        //        if (IsImported(name))
-        //            RemoveInternal(name);
-
-        //    AssetDatabase.Refresh();
-        //}
-
-        #endregion
-
 
         // ------------------------------------------------------------
         // Status göstergesi
         // ------------------------------------------------------------
 
-        [MenuItem("MyToolkit/Status/Sample A", false, 100)]
-        private static void StatusA() { }
-        [MenuItem("MyToolkit/Status/Sample A", true)]
-        private static bool ValidateStatusA() { Menu.SetChecked("MyToolkit/Status/Sample A", IsImported("Sample A")); return false; }
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence", false, 100)]
+        private static void StatusPersistence() { }
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence", true)]
+        private static bool ValidateStatusPersistence() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Import/Persistence", IsImported("Persistence")); return false; }
 
-        //[MenuItem("MyToolkit/Status/Sample B", false, 101)]
-        //private static void StatusB() { }
-        //[MenuItem("MyToolkit/Status/Sample B", true)]
-        //private static bool ValidateStatusB() { Menu.SetChecked("MyToolkit/Status/Sample B", IsImported("Sample B")); return false; }
-
-        //[MenuItem("MyToolkit/Status/Sample C", false, 102)]
-        //private static void StatusC() { }
-        //[MenuItem("MyToolkit/Status/Sample C", true)]
-        //private static bool ValidateStatusC() { Menu.SetChecked("MyToolkit/Status/Sample C", IsImported("Sample C")); return false; }
-
-        //[MenuItem("MyToolkit/Status/Sample D", false, 103)]
-        //private static void StatusD() { }
-        //[MenuItem("MyToolkit/Status/Sample D", true)]
-        //private static bool ValidateStatusD() { Menu.SetChecked("MyToolkit/Status/Sample D", IsImported("Sample D")); return false; }
-
-        //[MenuItem("MyToolkit/Status/Sample E", false, 104)]
-        //private static void StatusE() { }
-        //[MenuItem("MyToolkit/Status/Sample E", true)]
-        //private static bool ValidateStatusE() { Menu.SetChecked("MyToolkit/Status/Sample E", IsImported("Sample E")); return false; }
-
+        
         // ------------------------------------------------------------
         // Ortak yardımcı metotlar
         // ------------------------------------------------------------
