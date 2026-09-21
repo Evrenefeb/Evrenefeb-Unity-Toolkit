@@ -82,42 +82,6 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Improved Timers Module", true)]
         private static bool ValidateImportTimersModule() => !IsImported("Improved Timers Module");
 
-        #region Templetes
-
-        //[MenuItem("MyToolkit/Import/Sample A", false, 10)]
-        //private static void ImportA() => ImportWithDependencies("Sample A");
-        //[MenuItem("MyToolkit/Import/Sample A", true)]
-        //private static bool ValidateImportA() => !IsImported("Sample A");
-
-        //[MenuItem("MyToolkit/Import/Sample B", false, 11)]
-        //private static void ImportB() => ImportWithDependencies("Sample B");
-        //[MenuItem("MyToolkit/Import/Sample B", true)]
-        //private static bool ValidateImportB() => !IsImported("Sample B");
-
-        //[MenuItem("MyToolkit/Import/Sample C", false, 12)]
-        //private static void ImportC() => ImportWithDependencies("Sample C");
-        //[MenuItem("MyToolkit/Import/Sample C", true)]
-        //private static bool ValidateImportC() => !IsImported("Sample C");
-
-        //[MenuItem("MyToolkit/Import/Sample D", false, 13)]
-        //private static void ImportD() => ImportWithDependencies("Sample D");
-        //[MenuItem("MyToolkit/Import/Sample D", true)]
-        //private static bool ValidateImportD() => !IsImported("Sample D");
-
-        //[MenuItem("MyToolkit/Import/Sample E", false, 14)]
-        //private static void ImportE() => ImportWithDependencies("Sample E");
-        //[MenuItem("MyToolkit/Import/Sample E", true)]
-        //private static bool ValidateImportE() => !IsImported("Sample E");
-
-        //[MenuItem("MyToolkit/Import/All Samples", false, 30)]
-        //private static void ImportAll() {
-        //    foreach (var name in Dependencies.Keys)
-        //        ImportWithDependencies(name);
-        //}
-
-        #endregion
-
-
         // ------------------------------------------------------------
         // Remove / Uninstall komutları
         // ------------------------------------------------------------
