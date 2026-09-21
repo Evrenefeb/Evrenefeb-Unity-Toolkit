@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditor.PackageManager;
 using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
@@ -13,18 +14,31 @@ namespace Evrenefeb.Toolkit.Editor {
         private const string PackageName = "com.evrenefeb.unity-toolkit";
 
         // key: sample displayName, value: bu sample'in çalışması için önce kurulması gereken sample'lar
-    //    private static readonly Dictionary<string, string[]> Dependencies = new()
-    //    {
-    //    { "Sample D", new string[0] },
-    //    { "Sample A", new[] { "Sample B" } },
-    //    { "Sample B", new string[0] },
-    //    { "Sample E", new string[0] },
-    //    { "Sample C", new[] { "Sample E", "Sample B" } },
-    //};
+        //    private static readonly Dictionary<string, string[]> Dependencies = new()
+        //    {
+        //    { "Sample D", new string[0] },
+        //    { "Sample A", new[] { "Sample B" } },
+        //    { "Sample B", new string[0] },
+        //    { "Sample E", new string[0] },
+        //    { "Sample C", new[] { "Sample E", "Sample B" } },
+        //};
 
         private static readonly Dictionary<string, string[]> Dependencies = new()
         {
             { "Persistence", new string[0] },
+            { "Audio Module", new string[0] },
+        };
+
+        // key: sample displayName, value: (harici paket adı, git URL) çiftleri.
+        // Paket adını her kütüphanenin kendi package.json'undaki "name" alanından al.
+        private static readonly Dictionary<string, (string packageName, string gitUrl)[]> ExternalDependencies = new()
+        {
+            {
+                "Audio Module", new[]
+                {
+                    ("com.ami.broaudio", "https://github.com/man572142/Bro_Audio.git?path=/Assets/BroAudio")
+                }
+            },
         };
 
         private static Dictionary<string, List<string>> _dependents;
@@ -47,9 +61,14 @@ namespace Evrenefeb.Toolkit.Editor {
         // ------------------------------------------------------------
 
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence", false, 10)]
-        private static void ImportPersistence() => ImportWithDependencies("Persistence");
+        private static void ImportPersistence() => Import("Persistence");
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence", true)]
         private static bool ValidateImportPersistence() => !IsImported("Persistence");
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Audio Module", false, 11)]
+        private static void ImportAudioModule() => Import("Audio Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Audio Module", true)]
+        private static bool ValidateImportAudioModule() => !IsImported("Audio Module");
 
         #region Templetes
 
@@ -96,6 +115,11 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence", true)]
         private static bool ValidateRemovePersistence() => IsImported("Persistence");
 
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Audio Module", false, 61)]
+        private static void RemoveAudioModule() => RemoveWithDependents("Audio Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Audio Module", true)]
+        private static bool ValidateRemoveAudioModule() => IsImported("Audio Module");
+
 
         // ------------------------------------------------------------
         // Status göstergesi
@@ -104,9 +128,14 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence", false, 100)]
         private static void StatusPersistence() { }
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence", true)]
-        private static bool ValidateStatusPersistence() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Import/Persistence", IsImported("Persistence")); return false; }
+        private static bool ValidateStatusPersistence() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Persistence", IsImported("Persistence")); return false; }
 
-        
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Audio Module", false, 101)]
+        private static void StatusAudioModule() { }
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Audio Module", true)]
+        private static bool ValidateStatusAudioModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Audio Module", IsImported("Audio Module")); return false; }
+
+
         // ------------------------------------------------------------
         // Ortak yardımcı metotlar
         // ------------------------------------------------------------
@@ -118,6 +147,73 @@ namespace Evrenefeb.Toolkit.Editor {
         private static bool IsImported(string sampleName) {
             var samples = GetSamples();
             return samples.TryGetValue(sampleName, out var sample) && sample.isImported;
+        }
+
+        /// <summary>
+        /// Bir sample'ı import etmeden önce, o sample'ın ihtiyaç duyduğu
+        /// harici (third-party) UPM paketlerinin kurulu olup olmadığını kontrol eder.
+        /// Eksik olanlar varsa kullanıcıdan onay alıp git URL üzerinden otomatik kurar,
+        /// kurulum bitince asıl sample import zincirini (ImportWithDependencies) tetikler.
+        /// Harici bağımlılığı olmayan sample'lar (örn. Persistence) doğrudan geçer.
+        /// </summary>
+        private static void Import(string sampleName) {
+            var missingExternals = GetMissingExternalPackages(sampleName);
+
+            if (missingExternals.Count == 0) {
+                ImportWithDependencies(sampleName);
+                return;
+            }
+
+            var names = string.Join("\n", missingExternals.Select(m => $"• {m.packageName}"));
+            bool confirmed = EditorUtility.DisplayDialog(
+                "Harici Paket Gerekiyor",
+                $"'{sampleName}' için şu harici paketlerin kurulması gerekiyor:\n\n{names}\n\n" +
+                "Bunlar Git URL üzerinden otomatik kurulacak. Devam edilsin mi?",
+                "Evet, Kur ve Import Et", "İptal");
+
+            if (!confirmed) {
+                Debug.Log($"[MyToolkit] '{sampleName}' import işlemi iptal edildi (harici paket onayı verilmedi).");
+                return;
+            }
+
+            var gitUrls = missingExternals.Select(m => m.gitUrl).ToArray();
+
+            Debug.Log($"[MyToolkit] Harici paketler kuruluyor: {string.Join(", ", gitUrls)}");
+            var request = Client.AddAndRemove(gitUrls, null);
+
+            void Poll() {
+                if (!request.IsCompleted) return;
+
+                EditorApplication.update -= Poll;
+
+                if (request.Status == StatusCode.Success) {
+                    Debug.Log($"[MyToolkit] Harici paketler kuruldu, '{sampleName}' import ediliyor...");
+                    // Package Manager yeniden çözümleme yaptığı için bir frame beklemek
+                    // Sample.FindByPackage sonuçlarının güncel olmasını garantiler.
+                    EditorApplication.delayCall += () => ImportWithDependencies(sampleName);
+                }
+                else {
+                    Debug.LogError($"[MyToolkit] Harici paket kurulumu başarısız oldu: {request.Error?.message}");
+                }
+            }
+
+            EditorApplication.update += Poll;
+        }
+
+        private static List<(string packageName, string gitUrl)> GetMissingExternalPackages(string sampleName) {
+            var result = new List<(string, string)>();
+            if (!ExternalDependencies.TryGetValue(sampleName, out var externals))
+                return result;
+
+            var installed = UnityEditor.PackageManager.PackageInfo.GetAllRegisteredPackages()
+                .Select(p => p.name)
+                .ToHashSet();
+
+            foreach (var ext in externals)
+                if (!installed.Contains(ext.packageName))
+                    result.Add(ext);
+
+            return result;
         }
 
         private static void ImportWithDependencies(string sampleName) {
