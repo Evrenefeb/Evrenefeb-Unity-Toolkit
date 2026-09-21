@@ -18,6 +18,11 @@
       "displayName": "Persistence",
       "description": "Provides an easy to use Persistence Manager with appropiate encoders and encryptors",
       "path": "Samples~/Persistence"
+    },
+    {
+      "displayName": "mproved Timers Module",
+      "description": "Provides an easy to use timers",
+      "path": "Samples~/Improved Timers Module"
     }
   ],
   "keywords": [
