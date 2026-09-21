@@ -1,8 +1,8 @@
 {
   "name": "com.evrenefeb.unity-toolkit",
-  "version": "1.2.3",
+  "version": "0.0.1.3",
   "displayName": "Evrenefeb Unity Toolkit",
-  "description": "This is an example package",
+  "description": "This is a compact unity toolkit package that has software solutions for common game development problems, internally and extranally by other developers",
   "unity": "6.6",
   "unityRelease": "0b5",
   "dependencies": {
@@ -10,24 +10,20 @@
   },
   "samples": [
     {
-      "displayName": "Sample A",
-      "description": "Sample A description",
-      "path": "Samples~/Sample A"
-    },
-    {
-      "displayName": "Persistence",
+      "displayName": "Persistence Module",
       "description": "Provides an easy to use Persistence Manager with appropiate encoders and encryptors",
       "path": "Samples~/Persistence"
     },
     {
       "displayName": "Improved Timers Module",
-      "description": "Provides an easy to use timers",
+      "description": "Provides an easy to use timers by Git Amend @ (https://github.com/adammyhre)",
       "path": "Samples~/Improved Timers Module"
     }
   ],
   "keywords": [
     "toolkit",
-    "modular"
+    "modular",
+    "plugin"
   ],
   "author": {
     "name": "Evrenefeb",

@@ -26,7 +26,6 @@ namespace Evrenefeb.Toolkit.Editor {
         private static readonly Dictionary<string, string[]> Dependencies = new()
         {
             { "Persistence", new string[0] },
-            { "Audio Module", new string[0] },
             { "Improved Timers Module", new string[0] },
         };
 
@@ -34,12 +33,6 @@ namespace Evrenefeb.Toolkit.Editor {
         // Paket adını her kütüphanenin kendi package.json'undaki "name" alanından al.
         private static readonly Dictionary<string, (string packageName, string gitUrl)[]> ExternalDependencies = new()
         {
-            {
-                "Audio Module", new[]
-                {
-                    ("com.ami.broaudio", "https://github.com/man572142/Bro_Audio.git?path=/Assets/BroAudio")
-                }
-            },
             {
                 "Improved Timers Module",
                 new[] {
@@ -72,10 +65,7 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence", true)]
         private static bool ValidateImportPersistence() => !IsImported("Persistence");
 
-        [MenuItem("Tools/Evrenefeb Toolkit/Import/Audio Module", false, 11)]
-        private static void ImportAudioModule() => Import("Audio Module");
-        [MenuItem("Tools/Evrenefeb Toolkit/Import/Audio Module", true)]
-        private static bool ValidateImportAudioModule() => !IsImported("Audio Module");
+        
 
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Improved Timers Module", false, 11)]
         private static void ImportTimersModule() => Import("Improved Timers Module");
@@ -91,10 +81,6 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence", true)]
         private static bool ValidateRemovePersistence() => IsImported("Persistence");
 
-        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Audio Module", false, 61)]
-        private static void RemoveAudioModule() => RemoveWithDependents("Audio Module");
-        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Audio Module", true)]
-        private static bool ValidateRemoveAudioModule() => IsImported("Audio Module");
 
         [MenuItem("Tools/Evrenefeb Toolkit/Remove/Improved Timers Module", false, 61)]
         private static void RemoveTimersModule() => RemoveWithDependents("Improved Timers Module");
@@ -111,10 +97,6 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence", true)]
         private static bool ValidateStatusPersistence() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Persistence", IsImported("Persistence")); return false; }
 
-        [MenuItem("Tools/Evrenefeb Toolkit/Status/Audio Module", false, 101)]
-        private static void StatusAudioModule() { }
-        [MenuItem("Tools/Evrenefeb Toolkit/Status/Audio Module", true)]
-        private static bool ValidateStatusAudioModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Audio Module", IsImported("Audio Module")); return false; }
 
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Improved Timers Module", false, 101)]
         private static void StatusTimersModule() { }

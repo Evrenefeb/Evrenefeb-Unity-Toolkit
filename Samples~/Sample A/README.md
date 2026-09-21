@@ -1,2 +1,0 @@
-Sample A
-README.md
