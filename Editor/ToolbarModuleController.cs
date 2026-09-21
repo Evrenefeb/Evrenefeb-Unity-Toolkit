@@ -9,6 +9,7 @@ using UnityEngine;
 namespace Evrenefeb.Toolkit.Editor {
     public static class ToolbarModuleController {
 
+
         private const string PackageName = "com.evrenefeb.unity-toolkit";
 
         // key: sample displayName, value: bu sample'in çalışması için önce kurulması gereken sample'lar
@@ -23,7 +24,7 @@ namespace Evrenefeb.Toolkit.Editor {
 
         private static readonly Dictionary<string, string[]> Dependencies = new()
         {
-            { "Sample A", new string[0] },
+            //{ "Sample A", new string[0] },
             { "Persistence", new string[0] },
         };
 
@@ -47,10 +48,17 @@ namespace Evrenefeb.Toolkit.Editor {
         // Import komutları
         // ------------------------------------------------------------
 
-        [MenuItem("MyToolkit/Import/Sample A", false, 10)]
-        private static void ImportA() => ImportWithDependencies("Sample A");
-        [MenuItem("MyToolkit/Import/Sample A", true)]
-        private static bool ValidateImportA() => !IsImported("Sample A");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence", false, 10)]
+        private static void ImportPersistence() => ImportWithDependencies("Persistence");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence", true)]
+        private static bool ValidateImportPersistence() => !IsImported("Persistence");
+
+        #region Templetes
+
+        //[MenuItem("MyToolkit/Import/Sample A", false, 10)]
+        //private static void ImportA() => ImportWithDependencies("Sample A");
+        //[MenuItem("MyToolkit/Import/Sample A", true)]
+        //private static bool ValidateImportA() => !IsImported("Sample A");
 
         //[MenuItem("MyToolkit/Import/Sample B", false, 11)]
         //private static void ImportB() => ImportWithDependencies("Sample B");
@@ -78,14 +86,19 @@ namespace Evrenefeb.Toolkit.Editor {
         //        ImportWithDependencies(name);
         //}
 
+        #endregion
+
+
         // ------------------------------------------------------------
         // Remove / Uninstall komutları
         // ------------------------------------------------------------
 
-        [MenuItem("MyToolkit/Remove/Sample A", false, 60)]
-        private static void RemoveA() => RemoveWithDependents("Sample A");
-        [MenuItem("MyToolkit/Remove/Sample A", true)]
-        private static bool ValidateRemoveA() => IsImported("Sample A");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence", false, 60)]
+        private static void RemovePersistence() => RemoveWithDependents("Persistence");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence", true)]
+        private static bool ValidateRemovePersistence() => IsImported("Persistence");
+
+        #region Templetes
 
         //[MenuItem("MyToolkit/Remove/Sample B", false, 61)]
         //private static void RemoveB() => RemoveWithDependents("Sample B");
@@ -121,6 +134,9 @@ namespace Evrenefeb.Toolkit.Editor {
 
         //    AssetDatabase.Refresh();
         //}
+
+        #endregion
+
 
         // ------------------------------------------------------------
         // Status göstergesi
