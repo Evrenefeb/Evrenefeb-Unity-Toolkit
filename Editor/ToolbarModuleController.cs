@@ -27,6 +27,7 @@ namespace Evrenefeb.Toolkit.Editor {
         {
             { "Persistence", new string[0] },
             { "Improved Timers Module", new string[0] },
+            { "Input Module", new string[0] },
         };
 
         // key: sample displayName, value: (harici paket adı, git URL) çiftleri.
@@ -56,14 +57,22 @@ namespace Evrenefeb.Toolkit.Editor {
             }
         }
 
+        #region Import / Remove / Status
+        
+        // ------------------------------------------------------------
+        // Import / Remove / Status komutları
+        // ------------------------------------------------------------
+
+        #region Import
+        
         // ------------------------------------------------------------
         // Import komutları
         // ------------------------------------------------------------
 
-        [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence", false, 10)]
-        private static void ImportPersistence() => Import("Persistence");
-        [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence", true)]
-        private static bool ValidateImportPersistence() => !IsImported("Persistence");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence Module", false, 10)]
+        private static void ImportPersistence() => Import("Persistence Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence Module", true)]
+        private static bool ValidateImportPersistence() => !IsImported("Persistence Module");
 
         
 
@@ -72,14 +81,25 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Improved Timers Module", true)]
         private static bool ValidateImportTimersModule() => !IsImported("Improved Timers Module");
 
+
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Input Module", false, 11)]
+        private static void ImportInputModule() => Import("Input Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/Input Module", true)]
+        private static bool ValidateImportInputModule() => !IsImported("Input Module");
+
+        #endregion
+
+        #region Remove
+        
         // ------------------------------------------------------------
         // Remove / Uninstall komutları
         // ------------------------------------------------------------
 
-        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence", false, 60)]
-        private static void RemovePersistence() => RemoveWithDependents("Persistence");
-        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence", true)]
-        private static bool ValidateRemovePersistence() => IsImported("Persistence");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence Module", false, 60)]
+        private static void RemovePersistence() => RemoveWithDependents("Persistence Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Persistence Module", true)]
+        private static bool ValidateRemovePersistence() => IsImported("Persistence Module");
 
 
         [MenuItem("Tools/Evrenefeb Toolkit/Remove/Improved Timers Module", false, 61)]
@@ -88,14 +108,24 @@ namespace Evrenefeb.Toolkit.Editor {
         private static bool ValidateRemoveTimersModule() => IsImported("Improved Timers Module");
 
 
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Input Module", false, 61)]
+        private static void RemoveInputModule() => RemoveWithDependents("Input Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/Input Module", true)]
+        private static bool ValidateRemoveInputModule() => IsImported("Input Module");
+
+        #endregion
+
+        #region Status
+        
         // ------------------------------------------------------------
         // Status göstergesi
         // ------------------------------------------------------------
 
-        [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence", false, 100)]
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence Module", false, 100)]
         private static void StatusPersistence() { }
-        [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence", true)]
-        private static bool ValidateStatusPersistence() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Persistence", IsImported("Persistence")); return false; }
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Persistence Module", true)]
+        private static bool ValidateStatusPersistence() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Persistence Module", IsImported("Persistence Module")); return false; }
 
 
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Improved Timers Module", false, 101)]
@@ -103,6 +133,16 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Improved Timers Module", true)]
         private static bool ValidateStatusTimersModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Improved Timers Module", IsImported("Improved Timers Module")); return false; }
 
+
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Input Module", false, 101)]
+        private static void StatusInputModule() { }
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/Input Module", true)]
+        private static bool ValidateStatusInputModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Input Module", IsImported("Input Module")); return false; }
+
+        #endregion
+
+        #endregion
 
         // ------------------------------------------------------------
         // Ortak yardımcı metotlar
