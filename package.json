@@ -1,6 +1,6 @@
 {
   "name": "com.evrenefeb.unity-toolkit",
-  "version": "0.0.2.0",
+  "version": "0.0.2.1",
   "displayName": "Evrenefeb Unity Toolkit",
   "description": "This is a compact unity toolkit package that has software solutions for common game development problems.",
   "unity": "6.6",
