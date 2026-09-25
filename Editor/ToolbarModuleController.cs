@@ -58,13 +58,13 @@ namespace Evrenefeb.Toolkit.Editor {
         }
 
         #region Import / Remove / Status
-        
+
         // ------------------------------------------------------------
         // Import / Remove / Status komutları
         // ------------------------------------------------------------
 
         #region Import
-        
+
         // ------------------------------------------------------------
         // Import komutları
         // ------------------------------------------------------------
@@ -74,7 +74,7 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Persistence Module", true)]
         private static bool ValidateImportPersistence() => !IsImported("Persistence Module");
 
-        
+
 
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Improved Timers Module", false, 11)]
         private static void ImportTimersModule() => Import("Improved Timers Module");
@@ -91,7 +91,7 @@ namespace Evrenefeb.Toolkit.Editor {
         #endregion
 
         #region Remove
-        
+
         // ------------------------------------------------------------
         // Remove / Uninstall komutları
         // ------------------------------------------------------------
@@ -117,7 +117,7 @@ namespace Evrenefeb.Toolkit.Editor {
         #endregion
 
         #region Status
-        
+
         // ------------------------------------------------------------
         // Status göstergesi
         // ------------------------------------------------------------
@@ -254,6 +254,10 @@ namespace Evrenefeb.Toolkit.Editor {
         /// Bir sample'ı kaldırır. Eğer başka kurulu sample'lar buna bağımlıysa
         /// (dependents), önce kullanıcıya sorar; onaylanırsa onları da kaskad
         /// olarak kaldırır. Onaylanmazsa hiçbir şey silinmez.
+        /// Ayrıca, kaldırılan sample'ların ihtiyaç duyduğu harici (third-party)
+        /// UPM paketlerini de kontrol eder: eğer o paket, kaldırma sonrasında
+        /// hâlâ kurulu kalan başka bir sample tarafından kullanılmıyorsa,
+        /// Package Manager'dan da otomatik olarak sökülür.
         /// </summary>
         private static void RemoveWithDependents(string sampleName) {
             var toRemove = new List<string>();
@@ -266,13 +270,29 @@ namespace Evrenefeb.Toolkit.Editor {
             // Sadece gerçekten kurulu olanları göster/kaldır
             toRemove = toRemove.Where(IsImported).ToList();
 
-            if (toRemove.Count > 1) {
-                var others = toRemove.Where(n => n != sampleName);
+            // Kaldırılacak sample'ların ihtiyaç duyduğu harici paketler (aday liste)
+            var candidateExternals = GetRequiredExternalPackages(toRemove);
+
+            // Kaldırma sonrasında hâlâ kurulu kalacak sample'ların ihtiyaç duyduğu paketler
+            var stillImportedAfter = Dependencies.Keys.Where(IsImported).Except(toRemove);
+            var stillNeededExternals = GetRequiredExternalPackages(stillImportedAfter);
+
+            // Artık kimse tarafından kullanılmayan harici paketler
+            var externalsToRemove = candidateExternals.Except(stillNeededExternals).ToList();
+
+            string message = $"'{sampleName}' kaldırılacak.";
+            var others = toRemove.Where(n => n != sampleName).ToList();
+            if (others.Count > 0)
+                message += $"\n\nBuna bağımlı olduğu için şunlar da birlikte kaldırılacak:\n{string.Join("\n", others)}";
+
+            if (externalsToRemove.Count > 0)
+                message += $"\n\nAyrıca artık hiçbir sample tarafından kullanılmayan şu harici paketler de Package Manager'dan kaldırılacak:\n{string.Join("\n", externalsToRemove)}";
+
+            if (others.Count > 0 || externalsToRemove.Count > 0) {
                 bool confirmed = EditorUtility.DisplayDialog(
-                    "Bağımlı Sample'lar Bulundu",
-                    $"'{sampleName}' kaldırılırsa şunlar da bozulacağı için birlikte kaldırılacak:\n\n" +
-                    $"{string.Join("\n", others)}\n\nDevam edilsin mi?",
-                    "Evet, Hepsini Kaldır", "İptal");
+                    "Kaldırma Onayı",
+                    message + "\n\nDevam edilsin mi?",
+                    "Evet, Kaldır", "İptal");
 
                 if (!confirmed) {
                     Debug.Log($"[MyToolkit] Kaldırma işlemi iptal edildi: '{sampleName}'.");
@@ -285,6 +305,45 @@ namespace Evrenefeb.Toolkit.Editor {
 
             AssetDatabase.Refresh();
             Debug.Log($"[MyToolkit] Kaldırıldı: {string.Join(", ", toRemove)}");
+
+            if (externalsToRemove.Count > 0)
+                RemoveExternalPackages(externalsToRemove);
+        }
+
+        /// <summary>
+        /// Verilen sample isimleri için ExternalDependencies haritasından
+        /// gereken tüm harici paket adlarının kümesini döner.
+        /// </summary>
+        private static HashSet<string> GetRequiredExternalPackages(IEnumerable<string> sampleNames) {
+            var result = new HashSet<string>();
+            foreach (var name in sampleNames)
+                if (ExternalDependencies.TryGetValue(name, out var externals))
+                    foreach (var ext in externals)
+                        result.Add(ext.packageName);
+            return result;
+        }
+
+        /// <summary>
+        /// Verilen harici paketleri Unity Package Manager'dan tamamen söker
+        /// (manifest.json'dan kaldırır). Asenkron olduğu için tamamlanana
+        /// kadar EditorApplication.update ile beklenir.
+        /// </summary>
+        private static void RemoveExternalPackages(List<string> packageNames) {
+            Debug.Log($"[MyToolkit] Harici paketler Package Manager'dan kaldırılıyor: {string.Join(", ", packageNames)}");
+            var request = Client.AddAndRemove(null, packageNames.ToArray());
+
+            void Poll() {
+                if (!request.IsCompleted) return;
+
+                EditorApplication.update -= Poll;
+
+                if (request.Status == StatusCode.Success)
+                    Debug.Log($"[MyToolkit] Harici paketler başarıyla kaldırıldı: {string.Join(", ", packageNames)}");
+                else
+                    Debug.LogError($"[MyToolkit] Harici paketler kaldırılırken hata oluştu: {request.Error?.message}");
+            }
+
+            EditorApplication.update += Poll;
         }
 
         /// <summary>
