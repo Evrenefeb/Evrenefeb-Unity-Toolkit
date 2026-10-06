@@ -28,6 +28,7 @@ namespace Evrenefeb.Toolkit.Editor {
             { "Persistence", new string[0] },
             { "Improved Timers Module", new string[0] },
             { "Input Module", new string[0] },
+            { "GameManagement Module", new string[0] },
         };
 
         // key: sample displayName, value: (harici paket adı, git URL) çiftleri.
@@ -88,6 +89,13 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Import/Input Module", true)]
         private static bool ValidateImportInputModule() => !IsImported("Input Module");
 
+
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/GameManagement Module", false, 11)]
+        private static void ImportGameManagementModule() => Import("GameManagement Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Import/GameManagement Module", true)]
+        private static bool ValidateImportGameManagementModule() => !IsImported("GameManagement Module");
+
         #endregion
 
         #region Remove
@@ -114,6 +122,13 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Remove/Input Module", true)]
         private static bool ValidateRemoveInputModule() => IsImported("Input Module");
 
+
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/GameManagement Module", false, 61)]
+        private static void RemoveGameManagementModule() => RemoveWithDependents("GameManagement Module");
+        [MenuItem("Tools/Evrenefeb Toolkit/Remove/GameManagement Module", true)]
+        private static bool ValidateRemoveGameManagementModule() => IsImported("GameManagement Module");
+
         #endregion
 
         #region Status
@@ -138,7 +153,14 @@ namespace Evrenefeb.Toolkit.Editor {
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Input Module", false, 101)]
         private static void StatusInputModule() { }
         [MenuItem("Tools/Evrenefeb Toolkit/Status/Input Module", true)]
-        private static bool ValidateStatusInputModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Input Module", IsImported("Input Module")); return false; }
+        private static bool ValidateStatusInputModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/Input Module", IsImported("GameManagement Module")); return false; }
+
+
+
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/GameManagement Module", false, 101)]
+        private static void StatusGameManagementModule() { }
+        [MenuItem("Tools/Evrenefeb Toolkit/Status/GameManagement Module", true)]
+        private static bool ValidateStatusGameManagementModule() { Menu.SetChecked("Tools/Evrenefeb Toolkit/Status/GameManagement Module", IsImported("GameManagement Module")); return false; }
 
         #endregion
 

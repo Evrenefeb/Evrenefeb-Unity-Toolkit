@@ -24,6 +24,11 @@
       "displayName": "Input Module",
       "description": "Provides an plug and play input controller.",
       "path": "Samples~/Input Module"
+    },
+    {
+      "displayName": "GameManagement Module",
+      "description": "Provides an plug and play Game Manager.",
+      "path": "Samples~/GameManagement Module"
     }
   ],
   "keywords": [
