@@ -27,4 +27,4 @@ jobs:
       # 3. ADIM: Python betiğini çalıştırma
       - name: Run Package Validation Script
         shell: bash
-        run: python3 .github/workflows/scripts/validate_package.py
+        run: python3 .github/workflows/scripts/validate_package_samples.py
