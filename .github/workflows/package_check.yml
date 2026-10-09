@@ -16,6 +16,10 @@ jobs:
             if: ${{hashFiles('package.json') != ''}}
             run: echo "Package.json exist."
 
+          - name: Run Package Validation Script
+            shell: bash
+            run: python3 .github/workflows/scripts/validate_package.py
+            
         #   - name: Validate displayName via Python
         #     shell: bash
         #     run: |
