@@ -19,7 +19,7 @@ jobs:
           - name: Validate Display Names
             run: |
                 node -e '
-                    const pkg = require("./package.json");
+                    const pkg = require("package.json");
                     const displayName = pkg.displayName;
 
                     if (!displayName) {
