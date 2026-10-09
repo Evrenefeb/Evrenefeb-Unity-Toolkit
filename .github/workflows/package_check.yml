@@ -16,24 +16,29 @@ jobs:
             if: ${{hashFiles('package.json') != ''}}
             run: echo "Package.json exist."
 
-          - name: Validate Display Names
+          - name: Validate displayName via Python
+            shell: bash
             run: |
-                node -e '
-                    const pkg = require("package.json");
-                    const displayName = pkg.displayName;
+                python3 -c '
+                import json, sys
 
-                    if (!displayName) {
-                    console.error("::error::package.json içinde displayName bulunamadı!");
-                    process.exit(1);
-                    }
+                try:
+                    with open("package.json", "r", encoding="utf-8") as f:
+                        data = json.load(f)
+                except Exception as e:
+                    print(f"::error::package.json okunamadı veya JSON formatı geçersiz: {e}")
+                    sys.exit(1)
 
-                    const isValid = displayName.endsWith("Module");
+                display_name = data.get("displayName")
 
-                    if (!isValid) {
-                    console.error(`::error::displayName "Module" ile bitmeli! Mevcut değer: "${displayName}"`);
-                    process.exit(1);
-                    }
+                if not display_name:
+                    print("::error::package.json içinde \"displayName\" alanı bulunamadı!")
+                    sys.exit(1)
 
-                    console.log(`::notice::displayName doğrulandı: "${displayName}"`);
+                if not display_name.endswith("Module"):
+                    print(f"::error::\"displayName\" değeri \"Module\" ile bitmelidir! Mevcut değer: \"{display_name}\"")
+                    sys.exit(1)
+
+                print(f"::notice::displayName doğrulandı: \"{display_name}\"")
                 '
     
