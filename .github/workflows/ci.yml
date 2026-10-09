@@ -1,0 +1,33 @@
+name: Unity Toolkit CI
+
+# 1. Tetikleyiciler: Kod ne zaman denetlensin?
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+# 2. Çalıştırılacak İşler
+jobs:
+  code-check:
+    name: Code Formatting & Build Verification
+    runs-on: ubuntu-latest  # GitHub'ın sağladığı ücretsiz Linux sanal makinesi
+
+    steps:
+      # Adım A: Repodaki kodları sanal makineye çek
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Adım B: .NET SDK'sını kur
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      # Adım C: C# kod formatını kontrol et (Format hatası varsa workflow başarısız olur)
+      - name: Check C# Formatting
+        run: dotnet format --verify-no-changes
+
+      # Adım D: Unity C# Projesini Derleme Denetimi
+      - name: Validate C# Compilation
+        run: dotnet build --configuration Release
