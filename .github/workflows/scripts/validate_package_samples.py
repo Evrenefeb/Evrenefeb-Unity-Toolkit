@@ -37,11 +37,11 @@ def validate_package_samples():
 
     # 4. Validate Paths
     for sample in jFile["samples"]:
-            samplePath = sample["path"]
-            # print(samplePath)
-            if(not Path.is_dir(samplePath)):
-                print(f"[package.json]: \"{samplePath}\" is defined but does not exist.")
-                sys.exit(1)
+        samplePath = sample["path"]
+        # samplePath metnini Path nesnesine dönüştürüyoruz: Path(samplePath).is_dir()
+        if not Path(samplePath).is_dir():
+            print(f"[package.json]: \"{samplePath}\" is defined but does not exist.")
+            sys.exit(1)
 
     print("All sample paths are validated.")
 
