@@ -1,0 +1,39 @@
+name: Package.json Compatibility Check
+
+on:
+    push:
+        branches: [ "main", "master" ]
+    pull_request:
+        branches: [ "main", "master" ]
+
+jobs:
+    module-name-check:
+        name: Module Name & Path Name Verification
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Confirm Package.json
+            if: ${{hashFiles('package.json') != ''}}
+            run: echo "Package.json exist."
+
+          - name: Validate Display Names
+            run: |
+                node -e '
+                    const pkg = require("./package.json");
+                    const displayName = pkg.displayName;
+
+                    if (!displayName) {
+                    console.error("::error::package.json içinde displayName bulunamadı!");
+                    process.exit(1);
+                    }
+
+                    const isValid = displayName.endsWith("Module");
+
+                    if (!isValid) {
+                    console.error(`::error::displayName "Module" ile bitmeli! Mevcut değer: "${displayName}"`);
+                    process.exit(1);
+                    }
+
+                    console.log(`::notice::displayName doğrulandı: "${displayName}"`);
+                '
+    
