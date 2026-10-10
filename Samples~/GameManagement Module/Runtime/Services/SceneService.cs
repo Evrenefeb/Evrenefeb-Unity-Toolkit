@@ -3,8 +3,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Toolkit.Core.Services
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     public interface ISceneService : IGameService
     {
         Task LoadSceneAsync(string sceneName, Action<float> onProgress = null);

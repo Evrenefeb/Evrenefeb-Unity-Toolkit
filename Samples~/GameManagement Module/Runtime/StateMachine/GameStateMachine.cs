@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Toolkit.Core.Events;
 
-namespace Toolkit.Core.State
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     public interface IGameState
     {
         Task EnterAsync();

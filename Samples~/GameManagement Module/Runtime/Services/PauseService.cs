@@ -1,9 +1,7 @@
 using System;
 using UnityEngine;
-using Toolkit.Core.Events;
 
-namespace Toolkit.Core.Services
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     [Flags]
     public enum PauseReason
     {

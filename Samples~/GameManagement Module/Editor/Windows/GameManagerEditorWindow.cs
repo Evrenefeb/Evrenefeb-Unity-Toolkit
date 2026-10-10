@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
-using Toolkit.Core;
-using Toolkit.Core.Events;
-using Toolkit.Core.Services;
 
-namespace Toolkit.Editor
+namespace Evrenefeb.Toolkit.GameManagement.Editor
 {
     public class GameManagerEditorWindow : EditorWindow
     {
@@ -47,7 +44,7 @@ namespace Toolkit.Editor
                 EditorGUILayout.LabelField("Current State", state != null ? state.GetType().Name : "None");
 
                 // Pause status
-                if (GameManager.TryGet<IPauseService>(out var pauseService))
+                if (GameManager.TryGetService<IPauseService>(out var pauseService))
                 {
                     EditorGUILayout.LabelField("Is Paused", pauseService.IsPaused.ToString());
                     EditorGUILayout.LabelField("Pause Reason", pauseService.CurrentPauseReason.ToString());

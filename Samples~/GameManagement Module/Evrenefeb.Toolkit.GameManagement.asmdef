@@ -1,0 +1,14 @@
+{
+    "name": "Evrenefeb.Toolkit.GameManagement",
+    "rootNamespace": "Evrenefeb.Toolkit.GameManagement",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

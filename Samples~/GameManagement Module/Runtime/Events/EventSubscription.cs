@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Toolkit.Core.Events
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     internal interface ISubscriptionTarget
     {
         void UnsubscribeById(int id);

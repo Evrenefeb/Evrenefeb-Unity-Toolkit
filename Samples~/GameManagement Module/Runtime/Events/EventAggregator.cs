@@ -2,8 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Toolkit.Core.Events
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     public class EventAggregator
     {
         private readonly Dictionary<Type, IEventChannel> _channels = new Dictionary<Type, IEventChannel>();

@@ -1,8 +1,6 @@
-using Toolkit.Core.Services;
-using Toolkit.Core.State;
 
-namespace Toolkit.Core.Events
-{
+
+namespace Evrenefeb.Toolkit.GameManagement {
     public readonly struct GameInitializedEvent : IGameEvent { }
 
     public readonly struct GamePausedEvent : IGameEvent

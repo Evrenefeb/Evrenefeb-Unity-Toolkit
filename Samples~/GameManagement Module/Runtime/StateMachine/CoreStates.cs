@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 
-namespace Toolkit.Core.State
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     public class BootState : BaseGameState
     {
         public override Task EnterAsync()

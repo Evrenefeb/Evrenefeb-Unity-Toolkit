@@ -1,7 +1,6 @@
 using UnityEngine;
 
-namespace Toolkit.Core
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     public static class GameManagerAutoBootstrap
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

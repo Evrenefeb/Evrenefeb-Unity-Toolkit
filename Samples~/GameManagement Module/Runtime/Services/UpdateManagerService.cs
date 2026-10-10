@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Toolkit.Core.Services
-{
+namespace Evrenefeb.Toolkit.GameManagement {
     public interface IEntityTick
     {
         void OnTick(float deltaTime);
