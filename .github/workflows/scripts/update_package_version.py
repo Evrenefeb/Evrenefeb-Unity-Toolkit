@@ -2,7 +2,7 @@ import os
 import re
 import json
 
-def increment_version():
+def update_package_version():
     filePath = './package.json'
     
     with open(filePath, 'r', encoding='utf-8') as file:
@@ -37,3 +37,6 @@ def increment_version():
         file.write('\n')
 
     print(f"Version bumped ({bump_type}): {current_version} -> {new_version}")
+    
+    if __name__ is "__main__":
+        update_package_version()
