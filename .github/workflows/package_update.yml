@@ -1,0 +1,35 @@
+name: Package Version Bump
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump_type:
+        description: 'Sürüm Güncelleme Türünü Seçin'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+
+permissions:
+    contents: write
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: Run Python Version Bumper
+        env:
+          BUMP_TYPE: ${{ github.event.inputs.bump_type }}
+        run: python3 .github/workflows/scripts/validate_package_version.py
+
+      - name: Commit and push bumped version
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: "ci: bump package.json version (${{ github.event.inputs.bump_type }}) [skip ci]"
+          file_pattern: "package.json"
