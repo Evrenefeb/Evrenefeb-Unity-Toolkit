@@ -8,14 +8,14 @@ on:
   workflow_dispatch:
     inputs:
       bump_type:
-        description: 'Sürüm Güncelleme Türünü Seçin'
+        description: 'Select Update Type'
         required: true
         default: 'patch'
         type: choice
         options:
-          - patch
-          - minor
-          - major
+          - Patch
+          - Minor
+          - Major
 
 permissions:
   contents: read
