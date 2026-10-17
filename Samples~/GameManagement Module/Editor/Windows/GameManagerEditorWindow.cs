@@ -9,7 +9,7 @@ namespace Evrenefeb.Toolkit.GameManagement.Editor
         private bool _eventsFoldout = true;
         private readonly List<EventDiagnostic> _eventDiagnostics = new List<EventDiagnostic>();
 
-        [MenuItem("Toolkit/GameManager Dashboard")]
+        [MenuItem("Tools/Evrenefeb Toolkit/GameManagement/GameManager Dashboard")]
         public static void ShowWindow()
         {
             GetWindow<GameManagerEditorWindow>("GameManager Dashboard");
